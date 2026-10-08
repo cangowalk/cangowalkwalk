@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9LGCE7HW8C');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CanGoWalkWalk - Singapore Map</title>
@@ -245,7 +254,7 @@
                 const popupContent = `
                     <div class="popup-title">${walk.title}</div>
                     <div class="popup-sub">${walk.sub}</div>
-                    <a href="${walk.url}" target="_blank" class="popup-btn">Watch 4K Video</a>
+                    <a href="${walk.url}" target="_blank" class="popup-btn" onclick="trackEvent('watch_video_click', '${walk.title}', '${walk.type}')">Watch 4K Video</a>
                 `;
                 marker.bindPopup(popupContent);
                 marker.on('click', () => activateLocation(walk.id, false));
@@ -261,8 +270,7 @@
                         <div class="card-title">${walk.title}</div>
                         <div class="card-sub">${walk.sub}</div>
                     </div>
-                    <a href="${walk.url}" target="_blank" class="watch-btn" onclick="event.stopPropagation();">
-                        ${playSvg} Watch 4K
+                    <a href="${walk.url}" target="_blank" class="watch-btn" onclick="event.stopPropagation(); trackEvent('watch_video_click', '${walk.title}', '${walk.type}');"> ${playSvg} Watch 4K
                     </a>
                 `;
                 listLayer.appendChild(card);
@@ -281,6 +289,15 @@
             }
         }
 
+        function trackEvent(eventName, walkTitle, walkType) {
+            if (typeof gtag === 'function') {
+                gtag('event', eventName, {
+                    walk_name: walkTitle,
+                    category: walkType
+                });
+            }
+        }
+
         function activateLocation(id, panToMap = true) {
             document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.custom-pin-container').forEach(p => p.classList.remove('active'));
@@ -295,8 +312,11 @@
             if (pinContainer) pinContainer.classList.add('active');
 
             const targetWalk = walks.find(w => w.id === id);
-            if (targetWalk && markerMap[id]) {
-                if (panToMap) {
+            if (targetWalk) {
+                // Log map pin or card click to Google Analytics
+                trackEvent('select_walk', targetWalk.title, targetWalk.type);
+
+                if (markerMap[id] && panToMap) {
                     map.flyTo([targetWalk.lat, targetWalk.lng], 15, { duration: 1.2 });
                     markerMap[id].openPopup();
                 }
