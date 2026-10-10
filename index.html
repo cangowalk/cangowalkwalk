@@ -171,6 +171,7 @@
             { id: "clarkequay", type: "mall", title: "Clarke Quay Central", sub: "Singapore Mall Walk", url: "https://www.youtube.com/watch?v=Bo8mHqx6HnQ", lat: 1.2888, lng: 103.8467 },
             { id: "funan", type: "mall", title: "Funan", sub: "Futuristic Lifestyle & Tech Mall", url: "https://www.youtube.com/watch?v=RBdXOGqJl7U", lat: 1.2911, lng: 103.8505 },
             { id: "peoplespark", type: "mall", title: "People's Park Complex 珍珠坊", sub: "Singapore's Brutalist Mall | Retro Mall Walk", url: "https://www.youtube.com/watch?v=Nr7qdqXe0xI", lat: 1.2843, lng: 103.8424 },
+            { id: "chinatownpoint", type: "mall", title: "Chinatown Point", sub: "Chinese Library, Food & Tours", url: "https://youtu.be/iJNF-VWtm_I", lat: 1.2849369, lng: 103.8447524 },
             { id: "plazasing", type: "mall", title: "Plaza Singapura", sub: "Silent Renovation", url: "https://www.youtube.com/watch?v=1AsEGynVkBQ", lat: 1.3007, lng: 103.8452 },
             { id: "tanglin", type: "mall", title: "Tanglin Mall", sub: "Singapore Mall Walk", url: "https://www.youtube.com/watch?v=vnABLs4CMQA", lat: 1.3048, lng: 103.8239 },
             { id: "bugisplus", type: "mall", title: "Bugis+", sub: "Singapore Mall Walk", url: "https://www.youtube.com/watch?v=9WwTiFXc8bo", lat: 1.2998, lng: 103.8540 },
@@ -188,6 +189,23 @@
             { id: "malacca", type: "overseas", title: "Malacca River", sub: "Walking to the end | Malacca Night Walk", url: "https://www.youtube.com/watch?v=GSTK3S01wBg", lat: 2.1973, lng: 102.2486 },
             { id: "mooneeponds", type: "overseas", title: "Moonee Ponds", sub: "Rainy Night Best Banh Mi? Melbourne Night Walk ", url: "https://www.youtube.com/watch?v=A2eaaKCHpgU", lat: -37.7663, lng: 144.9226 },
             { id: "tiongbahru", type: "rain", title: "Tiong Bahru", sub: "Outram MRT to Tiong Bahru MRT", url: "https://www.youtube.com/watch?v=CnA_Bcd1SFc", lat: 1.2846, lng: 103.8321 }
+
+            { 
+                id: "woodlands_jb", 
+                type: "overseas", // or whatever category you prefer
+                title: "Woodlands MRT to JB City Square", 
+                sub: "Walk from Singapore to JB City Square Mall", 
+                url: "https://youtu.be/2Zw8xloJ1P8", 
+                lat: 1.4369, // Center pin at the start (Woodlands MRT)
+                lng: 103.7865,
+                path: [
+                    [1.4369, 103.7865], // Woodlands MRT
+                    [1.4443, 103.7686], // Woodlands Checkpoint
+                    [1.4527, 103.7663], // Causeway Midpoint
+                    [1.4624, 103.7662], // JB CIQ Checkpoint
+                    [1.4626, 103.7637]  // JB City Square Mall
+                ]
+            },
         ];
 
         let map;
@@ -254,6 +272,15 @@
 
                 const marker = L.marker([walk.lat, walk.lng], { icon: customIcon });
                 marker.addTo(markersLayer);
+                // If the walk has a path defined, draw a walking trail
+                if (walk.path) {
+                    L.polyline(walk.path, {
+                        color: '#38bdf8', // A nice cyan blue to stand out
+                        weight: 4,        // Thickness of the line
+                        opacity: 0.8,
+                        dashArray: '8, 8' // Makes it a dotted line (like a walking trail map!)
+                    }).addTo(map);
+                }
                 
                 const popupContent = `
                     <div class="popup-title">${walk.title}</div>
