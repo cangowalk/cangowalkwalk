@@ -150,6 +150,7 @@
                 <button class="tab-btn" onclick="renderWalks('mall')">Malls</button>
                 <button class="tab-btn" onclick="renderWalks('nature')">Nature</button>
                 <button class="tab-btn" onclick="renderWalks('rain')">Rain</button>
+                <button class="tab-btn" onclick="renderWalks('transit')">Transit</button>
                 <button class="tab-btn" onclick="renderWalks('overseas')">Overseas</button>
             </div>
             <div class="list-container" id="list-layer"></div>
@@ -208,6 +209,39 @@
                     [1.4626, 103.7637]  // JB City Square Mall
                 ]
             },
+            { 
+                id: "bplrt_service_a", 
+                type: "transit", 
+                title: "Bukit Panjang LRT Service A", 
+                sub: "Heartland Loop Ride (Clockwise via Senja)", 
+                url: "https://youtu.be/w_V44g3hw5E", 
+                lat: 1.3853, // Main pin placed at Choa Chu Kang Interchange start
+                lng: 103.7444,
+                path: [
+                    [1.3853, 103.7444], // BP1 Choa Chu Kang (Start)
+                    [1.3803, 103.7453], // BP2 South View
+                    [1.3786, 103.7491], // BP3 Keat Hong
+                    [1.3767, 103.7537], // BP4 Teck Whye
+                    [1.3781, 103.7584], // BP5 Phoenix
+                    [1.3790, 103.7618], // BP6 Bukit Panjang
+                    [1.3827, 103.7623], // BP13 Senja (Clockwise entry)
+                    [1.3867, 103.7644], // BP12 Jelapang
+                    [1.3879, 103.7696], // BP11 Segar
+                    [1.3845, 103.7707], // BP10 Fajar
+                    [1.3800, 103.7726], // BP9 Bangkit
+                    [1.3762, 103.7712], // BP8 Pending
+                    [1.3778, 103.7667], // BP7 Petir
+                    [1.3790, 103.7618], // BP6 Bukit Panjang (Loop completed)
+                    [1.3781, 103.7584], // BP5 Phoenix
+                    [1.3767, 103.7537], // BP4 Teck Whye
+                    [1.3786, 103.7491], // BP3 Keat Hong
+                    [1.3803, 103.7453], // BP2 South View
+                    [1.3853, 103.7444]  // BP1 Choa Chu Kang (Terminus return)
+                ]
+            },
+            
+
+            
         ];
 
         let map;
