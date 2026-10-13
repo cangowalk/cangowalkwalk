@@ -226,6 +226,33 @@
                     [1.4626, 103.7637]  // JB City Square Mall
                 ]
             },
+
+            { 
+                id: "southerncross_swanhill", 
+                type: "overseas", // or "transit" if you added the transit tab
+                title: "Southern Cross to Swan Hill", 
+                sub: "Victoria's Longest Train Ride through Fog (V/Line)", 
+                url: "https://youtu.be/uyEIH-xN6Lg", 
+                lat: -37.8184, // Start marker at Southern Cross Station
+                lng: 144.9524,
+                path: [
+                    [-37.8184, 144.9524], // Southern Cross Station (Start)
+                    [-37.8013, 144.9015], // Footscray
+                    [-37.7008, 144.7738], // Watergardens
+                    [-37.4812, 144.5956], // Gisborne
+                    [-37.2475, 144.4552], // Kyneton
+                    [-37.0642, 144.2235], // Castlemaine
+                    [-36.7937, 144.2461], // Kangaroo Flat
+                    [-36.7657, 144.2830], // Bendigo Station
+                    [-36.7185, 144.2541], // Eaglehawk
+                    [-36.4674, 144.2005], // Raywood
+                    [-36.3686, 144.2692], // Dingee
+                    [-36.0543, 144.1165], // Pyramid Hill
+                    [-35.7340, 143.9214], // Kerang
+                    [-35.3414, 143.5625]  // Swan Hill Station (Terminus)
+                ]
+            },
+            
             { 
                 id: "bplrt_service_a", 
                 type: "transit", 
@@ -400,8 +427,14 @@
                 // Log map pin or card click to Google Analytics
                 trackEvent('select_walk', targetWalk.title, targetWalk.type);
 
-                if (markerMap[id] && panToMap) {
-                    map.flyTo([targetWalk.lat, targetWalk.lng], 15, { duration: 1.2 });
+            if (markerMap[id] && panToMap) {
+                    if (targetWalk.path && targetWalk.path.length > 5) {
+                        // Fit the whole route nicely into view
+                        const bounds = L.polyline(targetWalk.path).getBounds();
+                        map.flyToBounds(bounds, { padding: [60, 60], duration: 1.5 });
+                    } else {
+                        map.flyTo([targetWalk.lat, targetWalk.lng], 15, { duration: 1.2 });
+                    }
                     markerMap[id].openPopup();
                 }
             }
